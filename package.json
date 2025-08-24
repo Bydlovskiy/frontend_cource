@@ -16,6 +16,7 @@
   "dependencies": {
     "@vueuse/core": "^12.3.0",
     "axios": "^1.7.9",
+    "aws-amplify": "^6.12.1",
     "element-plus": "^2.9.2",
     "openapi-typescript": "^6.7.6",
     "pinia": "^2.3.0",

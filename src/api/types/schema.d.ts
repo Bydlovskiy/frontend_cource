@@ -15,6 +15,63 @@ export interface paths {
       };
     };
   };
+  "/api/auth/register": {
+    post: {
+      requestBody: {
+        content: {
+          "application/json": {
+            /** Format: email */
+            email: string;
+            password: string;
+            firstName: string;
+            lastName: string;
+          };
+        };
+      };
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              id: string;
+              cognitoSub: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+              /** Format: email */
+              email: string;
+              firstName: string;
+              lastName: string;
+            };
+          };
+        };
+      };
+    };
+  };
+  "/api/me/": {
+    get: {
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              id: string;
+              cognitoSub: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+              /** Format: email */
+              email: string;
+              firstName: string;
+              lastName: string;
+            };
+          };
+        };
+      };
+    };
+  };
   "/api/post/": {
     get: {
       parameters: {
@@ -44,6 +101,19 @@ export interface paths {
                   id: string;
                   title: string;
                   description: string;
+                  authorId: string;
+                  author: {
+                    id: string;
+                    cognitoSub: string;
+                    /** Format: email */
+                    email: string;
+                    firstName: string;
+                    lastName: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                    /** Format: date-time */
+                    updatedAt: string;
+                  };
                   /** Format: date-time */
                   updatedAt: string;
                   /** Format: date-time */
@@ -72,6 +142,19 @@ export interface paths {
               id: string;
               title: string;
               description: string;
+              authorId: string;
+              author: {
+                id: string;
+                cognitoSub: string;
+                /** Format: email */
+                email: string;
+                firstName: string;
+                lastName: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              };
               /** Format: date-time */
               updatedAt: string;
               /** Format: date-time */
@@ -79,6 +162,19 @@ export interface paths {
               comments?: {
                   id: string;
                   postId: string;
+                  authorId: string;
+                  author?: {
+                    id: string;
+                    cognitoSub: string;
+                    /** Format: email */
+                    email: string;
+                    firstName: string;
+                    lastName: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                    /** Format: date-time */
+                    updatedAt: string;
+                  };
                   text: string;
                   /** Format: date-time */
                   createdAt: string;
@@ -106,6 +202,19 @@ export interface paths {
               id: string;
               title: string;
               description: string;
+              authorId: string;
+              author: {
+                id: string;
+                cognitoSub: string;
+                /** Format: email */
+                email: string;
+                firstName: string;
+                lastName: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              };
               /** Format: date-time */
               updatedAt: string;
               /** Format: date-time */
@@ -113,6 +222,19 @@ export interface paths {
               comments?: {
                   id: string;
                   postId: string;
+                  authorId: string;
+                  author?: {
+                    id: string;
+                    cognitoSub: string;
+                    /** Format: email */
+                    email: string;
+                    firstName: string;
+                    lastName: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                    /** Format: date-time */
+                    updatedAt: string;
+                  };
                   text: string;
                   /** Format: date-time */
                   createdAt: string;
@@ -146,6 +268,19 @@ export interface paths {
               id: string;
               title: string;
               description: string;
+              authorId: string;
+              author: {
+                id: string;
+                cognitoSub: string;
+                /** Format: email */
+                email: string;
+                firstName: string;
+                lastName: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              };
               /** Format: date-time */
               updatedAt: string;
               /** Format: date-time */
@@ -153,6 +288,19 @@ export interface paths {
               comments?: {
                   id: string;
                   postId: string;
+                  authorId: string;
+                  author?: {
+                    id: string;
+                    cognitoSub: string;
+                    /** Format: email */
+                    email: string;
+                    firstName: string;
+                    lastName: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                    /** Format: date-time */
+                    updatedAt: string;
+                  };
                   text: string;
                   /** Format: date-time */
                   createdAt: string;
@@ -180,6 +328,19 @@ export interface paths {
               comments: {
                   id: string;
                   postId: string;
+                  authorId: string;
+                  author?: {
+                    id: string;
+                    cognitoSub: string;
+                    /** Format: email */
+                    email: string;
+                    firstName: string;
+                    lastName: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                    /** Format: date-time */
+                    updatedAt: string;
+                  };
                   text: string;
                   /** Format: date-time */
                   createdAt: string;
@@ -211,6 +372,19 @@ export interface paths {
             "application/json": {
               id: string;
               postId: string;
+              authorId: string;
+              author?: {
+                id: string;
+                cognitoSub: string;
+                /** Format: email */
+                email: string;
+                firstName: string;
+                lastName: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              };
               text: string;
               /** Format: date-time */
               createdAt: string;
@@ -244,6 +418,19 @@ export interface paths {
             "application/json": {
               id: string;
               postId: string;
+              authorId: string;
+              author?: {
+                id: string;
+                cognitoSub: string;
+                /** Format: email */
+                email: string;
+                firstName: string;
+                lastName: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              };
               text: string;
               /** Format: date-time */
               createdAt: string;
@@ -263,9 +450,10 @@ export interface components {
   schemas: {
     /**
      * @description - GENERAL_ERROR -> 1000
+     * - EMAIL_USED -> 1001
      * @enum {integer}
      */
-    ErrorCodes: 1000;
+    ErrorCodes: 1000 | 1001;
   };
   responses: never;
   parameters: never;

@@ -45,6 +45,8 @@
       Description: {{ post.description }}
       <br>
       Comments count: {{ post.commentsCount }}
+      <br>
+      Author: {{ post.author.firstName }} {{ post.author.lastName }}
     </div>
 
     <el-pagination

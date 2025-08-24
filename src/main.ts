@@ -7,7 +7,8 @@ import { store } from '@/store/create-store'
 import {
   PortalPlugin,
   I18nPlugin,
-  VueGlobalPropertiesPlugin
+  VueGlobalPropertiesPlugin,
+  AmplifyPlugin
 } from '@/plugins'
 
 import '@/assets/styles/main.scss'
@@ -16,6 +17,7 @@ const app = createApp(App)
 
 app
   .use(store)
+  .use(AmplifyPlugin)
   .use(router)
   .use(PortalPlugin)
   .use(I18nPlugin)

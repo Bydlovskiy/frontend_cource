@@ -13,9 +13,13 @@
     <el-button @click="handleSave">{{ route.params.id === 'new' ? 'Add Post' : 'Update Post' }}</el-button>
 
     <div class="flex flex-col gap-2">
-      <div v-for="item in model.comments" :key="item.id" class="p-5 border rounded flex gap-2">
-        <el-input v-model="item.text" />
-        <el-button @click="handleSaveComment(item)">Update Comment</el-button>
+      <div v-for="item in model.comments" :key="item.id" class="p-5 border rounded ">
+        <div class="flex gap-2">
+          <el-input v-model="item.text" />
+          <el-button @click="handleSaveComment(item)">Update Comment</el-button>
+        </div>
+        <p class="mt-2">{{ item.author.firstName }} {{ item.author.lastName }}</p>
+        <p>Updated at: {{ Intl.DateTimeFormat('ua-UA').format(new Date(item.updatedAt)) }}</p>
       </div>
 
       <div v-if="route.params.id !== 'new'" class="p-5 border rounded flex gap-2">
