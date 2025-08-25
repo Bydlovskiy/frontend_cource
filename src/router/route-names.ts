@@ -4,5 +4,6 @@ export const routeNames = {
   posts: 'posts',
   postDetails: 'postDetails',
   login: 'login',
-  register: 'register'
+  register: 'register',
+  forgotPassword: 'forgotPassword'
 }

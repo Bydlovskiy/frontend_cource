@@ -23,6 +23,14 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
+    path: '/forgot-password',
+    name: routeNames.forgotPassword,
+    component: () => import('@/views/auth/ForgotPassword.vue'),
+    meta: {
+      notRequireAuth: true
+    }
+  },
+  {
     path: '/posts',
     name: routeNames.posts,
     component: () => import('@/views/posts/Posts.vue')

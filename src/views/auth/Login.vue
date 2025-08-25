@@ -13,10 +13,17 @@
 
       <el-button type="primary" class="w-full mb-4" native-type="submit">Login</el-button>
       <el-button
-        class="w-full !m-0"
+        class="w-full !ml-0 mb-4"
         @click="router.push({ name: $routeNames.register })"
       >
         Don't have an account?
+      </el-button>
+
+      <el-button
+        class="w-full !m-0"
+        @click="router.push({ name: $routeNames.forgotPassword })"
+      >
+        Forgot Password?
       </el-button>
     </el-form>
   </div>

@@ -1,6 +1,9 @@
 import {
   signIn,
-  fetchAuthSession
+  fetchAuthSession,
+  resetPassword,
+  confirmResetPassword,
+  type ConfirmResetPasswordInput
 } from 'aws-amplify/auth'
 
 export const useAuthStore = defineStore('authStore', () => {
@@ -26,10 +29,20 @@ export const useAuthStore = defineStore('authStore', () => {
       .then(session => session.tokens?.accessToken.toString())
   }
 
+  async function handelResetPassword (email: string) {
+    return resetPassword({ username: email })
+  }
+
+  async function handleConfirmResetPassword (payload: ConfirmResetPasswordInput) {
+    return confirmResetPassword(payload)
+  }
+
   return {
     getUserProfile,
     handleSignIn,
     handleSignUp,
+    handelResetPassword,
+    handleConfirmResetPassword,
     getToken,
     user
   }
