@@ -9,9 +9,11 @@ import {
 export const useAuthStore = defineStore('authStore', () => {
   const user = ref<TResponseMe | null>(null)
 
+  const role = computed(() => user.value?.role as TRole)
+
   async function handleSignUp ({ firstName, lastName, email, password }:
   { firstName: string; lastName: string; email: string; password: string }) {
-    await useApiClient.post('/api/auth/register', { firstName, lastName, email, password })
+    await useApiClient.post('/api/user/auth/register', { firstName, lastName, email, password })
     await handleSignIn({ email, password })
   }
 
@@ -44,6 +46,7 @@ export const useAuthStore = defineStore('authStore', () => {
     handelResetPassword,
     handleConfirmResetPassword,
     getToken,
-    user
+    user,
+    role
   }
 })

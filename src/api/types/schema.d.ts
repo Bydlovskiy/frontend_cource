@@ -15,7 +15,7 @@ export interface paths {
       };
     };
   };
-  "/api/auth/register": {
+  "/api/admin/auth/register": {
     post: {
       requestBody: {
         content: {
@@ -39,6 +39,8 @@ export interface paths {
               createdAt: string;
               /** Format: date-time */
               updatedAt: string;
+              /** @enum {string} */
+              role: "user" | "admin";
               /** Format: email */
               email: string;
               firstName: string;
@@ -49,30 +51,7 @@ export interface paths {
       };
     };
   };
-  "/api/me/": {
-    get: {
-      responses: {
-        /** @description Default Response */
-        200: {
-          content: {
-            "application/json": {
-              id: string;
-              cognitoSub: string;
-              /** Format: date-time */
-              createdAt: string;
-              /** Format: date-time */
-              updatedAt: string;
-              /** Format: email */
-              email: string;
-              firstName: string;
-              lastName: string;
-            };
-          };
-        };
-      };
-    };
-  };
-  "/api/post/": {
+  "/api/admin/post/": {
     get: {
       parameters: {
         query?: {
@@ -163,7 +142,7 @@ export interface paths {
                   id: string;
                   postId: string;
                   authorId: string;
-                  author?: {
+                  author: {
                     id: string;
                     cognitoSub: string;
                     /** Format: email */
@@ -187,7 +166,7 @@ export interface paths {
       };
     };
   };
-  "/api/post/{postId}/": {
+  "/api/admin/post/{postId}/": {
     get: {
       parameters: {
         path: {
@@ -223,7 +202,7 @@ export interface paths {
                   id: string;
                   postId: string;
                   authorId: string;
-                  author?: {
+                  author: {
                     id: string;
                     cognitoSub: string;
                     /** Format: email */
@@ -289,7 +268,7 @@ export interface paths {
                   id: string;
                   postId: string;
                   authorId: string;
-                  author?: {
+                  author: {
                     id: string;
                     cognitoSub: string;
                     /** Format: email */
@@ -313,7 +292,7 @@ export interface paths {
       };
     };
   };
-  "/api/post/{postId}/comment/": {
+  "/api/admin/post/{postId}/comment/": {
     get: {
       parameters: {
         path: {
@@ -329,7 +308,7 @@ export interface paths {
                   id: string;
                   postId: string;
                   authorId: string;
-                  author?: {
+                  author: {
                     id: string;
                     cognitoSub: string;
                     /** Format: email */
@@ -373,7 +352,7 @@ export interface paths {
               id: string;
               postId: string;
               authorId: string;
-              author?: {
+              author: {
                 id: string;
                 cognitoSub: string;
                 /** Format: email */
@@ -396,7 +375,7 @@ export interface paths {
       };
     };
   };
-  "/api/post/{postId}/comment/{commentId}/": {
+  "/api/admin/post/{postId}/comment/{commentId}/": {
     patch: {
       parameters: {
         path: {
@@ -419,7 +398,509 @@ export interface paths {
               id: string;
               postId: string;
               authorId: string;
-              author?: {
+              author: {
+                id: string;
+                cognitoSub: string;
+                /** Format: email */
+                email: string;
+                firstName: string;
+                lastName: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              };
+              text: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            };
+          };
+        };
+      };
+    };
+  };
+  "/api/admin/users/": {
+    get: {
+      parameters: {
+        query?: {
+          limit?: number;
+          paginationToken?: string;
+          searchQuery?: string;
+        };
+      };
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              users: {
+                  subId: string;
+                  /** Format: email */
+                  email: string;
+                  firstName?: string;
+                  lastName?: string;
+                  emailVerified?: boolean;
+                  isEnabled?: boolean;
+                  mfaEnabled?: boolean;
+                }[];
+              paginationToken?: string;
+            };
+          };
+        };
+      };
+    };
+  };
+  "/api/admin/users/{subId}/deactivate": {
+    post: {
+      parameters: {
+        path: {
+          subId: string;
+        };
+      };
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              /** @enum {boolean} */
+              success: true;
+            };
+          };
+        };
+      };
+    };
+  };
+  "/api/admin/users/{subId}/activate": {
+    post: {
+      parameters: {
+        path: {
+          subId: string;
+        };
+      };
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              /** @enum {boolean} */
+              success: true;
+            };
+          };
+        };
+      };
+    };
+  };
+  "/api/me/": {
+    get: {
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              id: string;
+              cognitoSub: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+              /** @enum {string} */
+              role: "user" | "admin";
+              /** Format: email */
+              email: string;
+              firstName: string;
+              lastName: string;
+            };
+          };
+        };
+      };
+    };
+  };
+  "/api/user/auth/register": {
+    post: {
+      requestBody: {
+        content: {
+          "application/json": {
+            /** Format: email */
+            email: string;
+            password: string;
+            firstName: string;
+            lastName: string;
+          };
+        };
+      };
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              id: string;
+              cognitoSub: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+              /** @enum {string} */
+              role: "user" | "admin";
+              /** Format: email */
+              email: string;
+              firstName: string;
+              lastName: string;
+            };
+          };
+        };
+      };
+    };
+  };
+  "/api/user/post/": {
+    get: {
+      parameters: {
+        query?: {
+          limit?: number;
+          offset?: number;
+          page?: number;
+          searchQuery?: string;
+          sortBy?: "title" | "createdAt" | "commentsCount";
+          sortDirection?: "asc" | "desc";
+          minCommentsCount?: number;
+        };
+      };
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              meta: {
+                total: number;
+                limit: number;
+                offset: number;
+                page: number;
+                totalPages: number;
+              };
+              posts: {
+                  id: string;
+                  title: string;
+                  description: string;
+                  authorId: string;
+                  author: {
+                    id: string;
+                    cognitoSub: string;
+                    /** Format: email */
+                    email: string;
+                    firstName: string;
+                    lastName: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                    /** Format: date-time */
+                    updatedAt: string;
+                  };
+                  /** Format: date-time */
+                  updatedAt: string;
+                  /** Format: date-time */
+                  createdAt: string;
+                  commentsCount?: number;
+                }[];
+            };
+          };
+        };
+      };
+    };
+    post: {
+      requestBody: {
+        content: {
+          "application/json": {
+            title: string;
+            description: string;
+          };
+        };
+      };
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              id: string;
+              title: string;
+              description: string;
+              authorId: string;
+              author: {
+                id: string;
+                cognitoSub: string;
+                /** Format: email */
+                email: string;
+                firstName: string;
+                lastName: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              };
+              /** Format: date-time */
+              updatedAt: string;
+              /** Format: date-time */
+              createdAt: string;
+              comments?: {
+                  id: string;
+                  postId: string;
+                  authorId: string;
+                  author: {
+                    id: string;
+                    cognitoSub: string;
+                    /** Format: email */
+                    email: string;
+                    firstName: string;
+                    lastName: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                    /** Format: date-time */
+                    updatedAt: string;
+                  };
+                  text: string;
+                  /** Format: date-time */
+                  createdAt: string;
+                  /** Format: date-time */
+                  updatedAt: string;
+                }[];
+            };
+          };
+        };
+      };
+    };
+  };
+  "/api/user/post/{postId}/": {
+    get: {
+      parameters: {
+        path: {
+          postId: string;
+        };
+      };
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              id: string;
+              title: string;
+              description: string;
+              authorId: string;
+              author: {
+                id: string;
+                cognitoSub: string;
+                /** Format: email */
+                email: string;
+                firstName: string;
+                lastName: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              };
+              /** Format: date-time */
+              updatedAt: string;
+              /** Format: date-time */
+              createdAt: string;
+              comments?: {
+                  id: string;
+                  postId: string;
+                  authorId: string;
+                  author: {
+                    id: string;
+                    cognitoSub: string;
+                    /** Format: email */
+                    email: string;
+                    firstName: string;
+                    lastName: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                    /** Format: date-time */
+                    updatedAt: string;
+                  };
+                  text: string;
+                  /** Format: date-time */
+                  createdAt: string;
+                  /** Format: date-time */
+                  updatedAt: string;
+                }[];
+            };
+          };
+        };
+      };
+    };
+    patch: {
+      parameters: {
+        path: {
+          postId: string;
+        };
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            title?: string;
+            description?: string;
+          };
+        };
+      };
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              id: string;
+              title: string;
+              description: string;
+              authorId: string;
+              author: {
+                id: string;
+                cognitoSub: string;
+                /** Format: email */
+                email: string;
+                firstName: string;
+                lastName: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              };
+              /** Format: date-time */
+              updatedAt: string;
+              /** Format: date-time */
+              createdAt: string;
+              comments?: {
+                  id: string;
+                  postId: string;
+                  authorId: string;
+                  author: {
+                    id: string;
+                    cognitoSub: string;
+                    /** Format: email */
+                    email: string;
+                    firstName: string;
+                    lastName: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                    /** Format: date-time */
+                    updatedAt: string;
+                  };
+                  text: string;
+                  /** Format: date-time */
+                  createdAt: string;
+                  /** Format: date-time */
+                  updatedAt: string;
+                }[];
+            };
+          };
+        };
+      };
+    };
+  };
+  "/api/user/post/{postId}/comment/": {
+    get: {
+      parameters: {
+        path: {
+          postId: string;
+        };
+      };
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              comments: {
+                  id: string;
+                  postId: string;
+                  authorId: string;
+                  author: {
+                    id: string;
+                    cognitoSub: string;
+                    /** Format: email */
+                    email: string;
+                    firstName: string;
+                    lastName: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                    /** Format: date-time */
+                    updatedAt: string;
+                  };
+                  text: string;
+                  /** Format: date-time */
+                  createdAt: string;
+                  /** Format: date-time */
+                  updatedAt: string;
+                }[];
+            };
+          };
+        };
+      };
+    };
+    post: {
+      parameters: {
+        path: {
+          postId: string;
+        };
+      };
+      requestBody: {
+        content: {
+          "application/json": {
+            text: string;
+          };
+        };
+      };
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              id: string;
+              postId: string;
+              authorId: string;
+              author: {
+                id: string;
+                cognitoSub: string;
+                /** Format: email */
+                email: string;
+                firstName: string;
+                lastName: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              };
+              text: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            };
+          };
+        };
+      };
+    };
+  };
+  "/api/user/post/{postId}/comment/{commentId}/": {
+    patch: {
+      parameters: {
+        path: {
+          postId: string;
+          commentId: string;
+        };
+      };
+      requestBody: {
+        content: {
+          "application/json": {
+            text: string;
+          };
+        };
+      };
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              id: string;
+              postId: string;
+              authorId: string;
+              author: {
                 id: string;
                 cognitoSub: string;
                 /** Format: email */
@@ -451,9 +932,10 @@ export interface components {
     /**
      * @description - GENERAL_ERROR -> 1000
      * - EMAIL_USED -> 1001
+     * - USER_DISABLED -> 1002
      * @enum {integer}
      */
-    ErrorCodes: 1000 | 1001;
+    ErrorCodes: 1000 | 1001 | 1002;
   };
   responses: never;
   parameters: never;

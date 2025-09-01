@@ -3,8 +3,8 @@ import { routeNames } from './route-names'
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/:pathMatch(.*)*',
-    redirect: '/'
+    path: '/',
+    redirect: '/posts'
   },
   {
     path: '/login',
@@ -39,6 +39,15 @@ const routes: Array<RouteRecordRaw> = [
     path: '/post/:id',
     name: routeNames.postDetails,
     component: () => import('@/views/posts/PostDetails.vue')
+  },
+  {
+    path: '/users',
+    name: routeNames.users,
+    component: () => import('@/views/users/Users.vue')
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/posts'
   }
 ]
 

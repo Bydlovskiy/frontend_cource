@@ -61,6 +61,8 @@
 </template>
 
 <script lang="ts" setup>
+import type { paths } from '@/api/types/schema'
+const authStore = useAuthStore()
 const posts = ref<TPosts['posts']>([])
 
 const meta = ref<TPosts['meta']>({
@@ -79,7 +81,11 @@ const limit = ref(10)
 const currentPage = ref(1)
 
 async function searchPosts () {
-  const res = (await useApiClient.get('/api/post/',
+  const request: Record<TRole, keyof paths> = {
+    admin: '/api/admin/post/',
+    user: '/api/user/post/'
+  }
+  const res = (await useApiClient.get(request[authStore.role],
     {
       params: {
         searchQuery: search.value,
@@ -92,14 +98,19 @@ async function searchPosts () {
       } as any
     }))
 
-  posts.value = res.posts
-  meta.value = res.meta
+  posts.value = (res as any).posts
+  meta.value = (res as any).meta
 }
 
 onMounted(async () => {
-  const res = await useApiClient.get('/api/post/')
+  const request: Record<TRole, keyof paths> = {
+    admin: '/api/admin/post/',
+    user: '/api/user/post/'
+  }
 
-  posts.value = res.posts
-  meta.value = res.meta
+  const res = await useApiClient.get(request[authStore.role])
+
+  posts.value = (res as any).posts
+  meta.value = (res as any).meta
 })
 </script>

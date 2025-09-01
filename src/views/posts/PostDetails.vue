@@ -31,9 +31,12 @@
 </template>
 
 <script lang="ts" setup>
+import type { paths } from '@/api/types/schema'
 import { routeNames } from '@/router/route-names'
 const route = useRoute()
 const router = useRouter()
+
+const authStore = useAuthStore()
 
 const newComment = ref('')
 
@@ -44,30 +47,65 @@ const model = ref<TPost | any>({
 })
 
 async function handleAddComment () {
-  const response = await useApiClient.post('/api/post/{postId}/comment/', { text: newComment.value }, { dynamicKeys: { postId: route.params.id as string } })
+  const requests: Record<TRole, keyof paths> = {
+    admin: '/api/admin/post/{postId}/comment/',
+    user: '/api/user/post/{postId}/comment/'
+  }
+
+  const response = await useApiClient.post(requests[authStore.role],
+    { text: newComment.value },
+    { dynamicKeys: { postId: route.params.id as string } }
+  )
+
   model.value.comments.push(response)
   newComment.value = ''
 }
 
 async function handleSaveComment (comment: any) {
-  await useApiClient.patch('/api/post/{postId}/comment/{commentId}/', { text: comment.text }, { dynamicKeys: { postId: route.params.id as string, commentId: comment.id } })
+  const requests: Record<TRole, keyof paths> = {
+    admin: '/api/admin/post/{postId}/comment/{commentId}/',
+    user: '/api/user/post/{postId}/comment/{commentId}/'
+  }
+
+  await useApiClient.patch(requests[authStore.role],
+    { text: comment.text },
+    { dynamicKeys: { postId: route.params.id as string, commentId: comment.id } })
 }
 
 async function handleSave () {
   if (route.params.id === 'new') {
-    const response = await useApiClient.post('/api/post/', model.value)
-    router.replace({ name: routeNames.postDetails, params: { id: response.id } })
+    const requests: Record<TRole, keyof paths> = {
+      admin: '/api/admin/post/',
+      user: '/api/user/post/'
+    }
+    const response = await useApiClient.post(requests[authStore.role], model.value)
+    router.replace({ name: routeNames.postDetails, params: { id: (response as any).id } })
 
-    model.value = { ...response, comments: [] }
+    model.value = { ...response as any, comments: [] }
   } else {
-    const response = await useApiClient.patch('/api/post/{postId}/', { title: model.value.title, description: model.value.description }, { dynamicKeys: { postId: route.params.id as string } })
-    model.value = { ...model.value, ...response }
+    const requests: Record<TRole, keyof paths> = {
+      admin: '/api/admin/post/{postId}/',
+      user: '/api/user/post/{postId}/'
+    }
+
+    const response = await useApiClient.patch(requests[authStore.role],
+      { title: model.value.title, description: model.value.description },
+      { dynamicKeys: { postId: route.params.id as string } })
+    model.value = { ...model.value, ...response as any }
   }
 }
 
 onMounted(async () => {
   if (route.params.id !== 'new') {
-    model.value = await useApiClient.get('/api/post/{postId}/', { dynamicKeys: { postId: route.params.id as string } })
+    const requests: Record<TRole, keyof paths> = {
+      admin: '/api/admin/post/{postId}/',
+      user: '/api/user/post/{postId}/'
+    }
+
+    model.value = await useApiClient.get(
+      requests[authStore.role],
+      { dynamicKeys: { postId: route.params.id as string } }
+    )
   } else {
     model.value = {
       title: '',
