@@ -6,6 +6,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     redirect: '/posts'
   },
+
   {
     path: '/login',
     name: routeNames.login,
@@ -26,6 +27,14 @@ const routes: Array<RouteRecordRaw> = [
     path: '/forgot-password',
     name: routeNames.forgotPassword,
     component: () => import('@/views/auth/ForgotPassword.vue'),
+    meta: {
+      notRequireAuth: true
+    }
+  },
+  {
+    path: '/accept-invite',
+    name: routeNames.acceptInvite,
+    component: () => import('@/views/auth/AcceptInvite.vue'),
     meta: {
       notRequireAuth: true
     }

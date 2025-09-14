@@ -25,6 +25,8 @@ export interface paths {
             password: string;
             firstName: string;
             lastName: string;
+            /** @enum {string} */
+            role: "admin" | "user";
           };
         };
       };
@@ -34,7 +36,6 @@ export interface paths {
           content: {
             "application/json": {
               id: string;
-              cognitoSub: string;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -45,6 +46,56 @@ export interface paths {
               email: string;
               firstName: string;
               lastName: string;
+            };
+          };
+        };
+      };
+    };
+  };
+  "/api/admin/invite/": {
+    post: {
+      requestBody: {
+        content: {
+          "application/json": {
+            /** Format: email */
+            email: string;
+            /** @enum {string} */
+            role: "admin" | "user";
+            /** @enum {string} */
+            sender: "sendGrid" | "resend";
+          };
+        };
+      };
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              success: boolean;
+            };
+          };
+        };
+      };
+    };
+  };
+  "/api/admin/invite/resend": {
+    post: {
+      requestBody: {
+        content: {
+          "application/json": {
+            /** Format: email */
+            email: string;
+            /** @enum {string} */
+            sender: "sendGrid" | "resend";
+          };
+        };
+      };
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              success: boolean;
             };
           };
         };
@@ -83,7 +134,6 @@ export interface paths {
                   authorId: string;
                   author: {
                     id: string;
-                    cognitoSub: string;
                     /** Format: email */
                     email: string;
                     firstName: string;
@@ -124,7 +174,6 @@ export interface paths {
               authorId: string;
               author: {
                 id: string;
-                cognitoSub: string;
                 /** Format: email */
                 email: string;
                 firstName: string;
@@ -144,7 +193,6 @@ export interface paths {
                   authorId: string;
                   author: {
                     id: string;
-                    cognitoSub: string;
                     /** Format: email */
                     email: string;
                     firstName: string;
@@ -184,7 +232,6 @@ export interface paths {
               authorId: string;
               author: {
                 id: string;
-                cognitoSub: string;
                 /** Format: email */
                 email: string;
                 firstName: string;
@@ -204,7 +251,6 @@ export interface paths {
                   authorId: string;
                   author: {
                     id: string;
-                    cognitoSub: string;
                     /** Format: email */
                     email: string;
                     firstName: string;
@@ -250,7 +296,6 @@ export interface paths {
               authorId: string;
               author: {
                 id: string;
-                cognitoSub: string;
                 /** Format: email */
                 email: string;
                 firstName: string;
@@ -270,7 +315,6 @@ export interface paths {
                   authorId: string;
                   author: {
                     id: string;
-                    cognitoSub: string;
                     /** Format: email */
                     email: string;
                     firstName: string;
@@ -310,7 +354,6 @@ export interface paths {
                   authorId: string;
                   author: {
                     id: string;
-                    cognitoSub: string;
                     /** Format: email */
                     email: string;
                     firstName: string;
@@ -354,7 +397,6 @@ export interface paths {
               authorId: string;
               author: {
                 id: string;
-                cognitoSub: string;
                 /** Format: email */
                 email: string;
                 firstName: string;
@@ -400,7 +442,6 @@ export interface paths {
               authorId: string;
               author: {
                 id: string;
-                cognitoSub: string;
                 /** Format: email */
                 email: string;
                 firstName: string;
@@ -425,8 +466,6 @@ export interface paths {
     get: {
       parameters: {
         query?: {
-          limit?: number;
-          paginationToken?: string;
           searchQuery?: string;
         };
       };
@@ -435,8 +474,7 @@ export interface paths {
         200: {
           content: {
             "application/json": {
-              users: {
-                  subId: string;
+              users: ({
                   /** Format: email */
                   email: string;
                   firstName?: string;
@@ -444,7 +482,9 @@ export interface paths {
                   emailVerified?: boolean;
                   isEnabled?: boolean;
                   mfaEnabled?: boolean;
-                }[];
+                  /** @enum {string} */
+                  status?: "FORCE_CHANGE_PASSWORD" | "CONFIRMED" | "PENDING_CONFIRMATION";
+                })[];
               paginationToken?: string;
             };
           };
@@ -452,11 +492,14 @@ export interface paths {
       };
     };
   };
-  "/api/admin/users/{subId}/deactivate": {
+  "/api/admin/users/deactivate": {
     post: {
-      parameters: {
-        path: {
-          subId: string;
+      requestBody: {
+        content: {
+          "application/json": {
+            /** Format: email */
+            email: string;
+          };
         };
       };
       responses: {
@@ -472,11 +515,14 @@ export interface paths {
       };
     };
   };
-  "/api/admin/users/{subId}/activate": {
+  "/api/admin/users/activate": {
     post: {
-      parameters: {
-        path: {
-          subId: string;
+      requestBody: {
+        content: {
+          "application/json": {
+            /** Format: email */
+            email: string;
+          };
         };
       };
       responses: {
@@ -500,7 +546,6 @@ export interface paths {
           content: {
             "application/json": {
               id: string;
-              cognitoSub: string;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -536,7 +581,6 @@ export interface paths {
           content: {
             "application/json": {
               id: string;
-              cognitoSub: string;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -547,6 +591,32 @@ export interface paths {
               email: string;
               firstName: string;
               lastName: string;
+            };
+          };
+        };
+      };
+    };
+  };
+  "/api/user/invite/accept": {
+    post: {
+      requestBody: {
+        content: {
+          "application/json": {
+            email: string;
+            signature: string;
+            firstName: string;
+            lastName: string;
+            expireAt: number;
+            password: string;
+          };
+        };
+      };
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              success: boolean;
             };
           };
         };
@@ -585,7 +655,6 @@ export interface paths {
                   authorId: string;
                   author: {
                     id: string;
-                    cognitoSub: string;
                     /** Format: email */
                     email: string;
                     firstName: string;
@@ -626,7 +695,6 @@ export interface paths {
               authorId: string;
               author: {
                 id: string;
-                cognitoSub: string;
                 /** Format: email */
                 email: string;
                 firstName: string;
@@ -646,7 +714,6 @@ export interface paths {
                   authorId: string;
                   author: {
                     id: string;
-                    cognitoSub: string;
                     /** Format: email */
                     email: string;
                     firstName: string;
@@ -686,7 +753,6 @@ export interface paths {
               authorId: string;
               author: {
                 id: string;
-                cognitoSub: string;
                 /** Format: email */
                 email: string;
                 firstName: string;
@@ -706,7 +772,6 @@ export interface paths {
                   authorId: string;
                   author: {
                     id: string;
-                    cognitoSub: string;
                     /** Format: email */
                     email: string;
                     firstName: string;
@@ -752,7 +817,6 @@ export interface paths {
               authorId: string;
               author: {
                 id: string;
-                cognitoSub: string;
                 /** Format: email */
                 email: string;
                 firstName: string;
@@ -772,7 +836,6 @@ export interface paths {
                   authorId: string;
                   author: {
                     id: string;
-                    cognitoSub: string;
                     /** Format: email */
                     email: string;
                     firstName: string;
@@ -812,7 +875,6 @@ export interface paths {
                   authorId: string;
                   author: {
                     id: string;
-                    cognitoSub: string;
                     /** Format: email */
                     email: string;
                     firstName: string;
@@ -856,7 +918,6 @@ export interface paths {
               authorId: string;
               author: {
                 id: string;
-                cognitoSub: string;
                 /** Format: email */
                 email: string;
                 firstName: string;
@@ -902,7 +963,6 @@ export interface paths {
               authorId: string;
               author: {
                 id: string;
-                cognitoSub: string;
                 /** Format: email */
                 email: string;
                 firstName: string;

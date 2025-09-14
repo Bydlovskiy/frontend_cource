@@ -4,7 +4,9 @@ export const routeNames = {
   posts: 'posts',
   users: 'users',
   postDetails: 'postDetails',
+  auth: 'auth',
   login: 'login',
   register: 'register',
+  acceptInvite: 'acceptInvite',
   forgotPassword: 'forgotPassword'
 }
