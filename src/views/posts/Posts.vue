@@ -20,6 +20,15 @@
         />
       </el-select>
 
+      <el-select v-model="tagsIds" multiple @change="searchPosts">
+        <el-option
+          v-for="option in tags"
+          :key="option.id"
+          :label="option.name"
+          :value="option.id"
+        />
+      </el-select>
+
       <el-select v-model="sortDirection" @change="searchPosts">
         <el-option
           v-for="option in [
@@ -47,6 +56,10 @@
       Comments count: {{ post.commentsCount }}
       <br>
       Author: {{ post.author.firstName }} {{ post.author.lastName }}
+      <br>
+      <template v-if="post">
+        Tags: <el-tag v-for="tag in post.tags" :key="tag.id">{{ tag.name }}</el-tag>
+      </template>
     </div>
 
     <el-pagination
@@ -79,6 +92,8 @@ const sortDirection = ref('')
 const minCommentsCount = ref(0)
 const limit = ref(10)
 const currentPage = ref(1)
+const tags = ref<TTags>([])
+const tagsIds = ref<string[]>([])
 
 async function searchPosts () {
   const request: Record<TRole, keyof paths> = {
@@ -93,7 +108,7 @@ async function searchPosts () {
         ...(sortDirection.value && { sortDirection: sortDirection.value }),
         ...(minCommentsCount.value && { minCommentsCount: minCommentsCount.value }),
         ...(limit.value && { limit: limit.value }),
-        //  page
+        ...(tagsIds.value.length && { tagIds: tagsIds.value }),
         ...(currentPage.value && { offset: limit.value * (currentPage.value - 1) })
       } as any
     }))
@@ -107,6 +122,8 @@ onMounted(async () => {
     admin: '/api/admin/post/',
     user: '/api/user/post/'
   }
+
+  tags.value = await useApiClient.get('/api/tags/')
 
   const res = await useApiClient.get(request[authStore.role])
 

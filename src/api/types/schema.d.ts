@@ -148,6 +148,11 @@ export interface paths {
                   /** Format: date-time */
                   createdAt: string;
                   commentsCount?: number;
+                  tags: {
+                      /** Format: uuid */
+                      id: string;
+                      name: string;
+                    }[];
                 }[];
             };
           };
@@ -160,6 +165,12 @@ export interface paths {
           "application/json": {
             title: string;
             description: string;
+            /** @default [] */
+            tags?: {
+                /** Format: uuid */
+                id?: string;
+                name: string;
+              }[];
           };
         };
       };
@@ -207,6 +218,11 @@ export interface paths {
                   createdAt: string;
                   /** Format: date-time */
                   updatedAt: string;
+                }[];
+              tags: {
+                  /** Format: uuid */
+                  id: string;
+                  name: string;
                 }[];
             };
           };
@@ -266,6 +282,11 @@ export interface paths {
                   /** Format: date-time */
                   updatedAt: string;
                 }[];
+              tags: {
+                  /** Format: uuid */
+                  id: string;
+                  name: string;
+                }[];
             };
           };
         };
@@ -282,6 +303,12 @@ export interface paths {
           "application/json": {
             title?: string;
             description?: string;
+            /** @default [] */
+            tags?: {
+                /** Format: uuid */
+                id?: string;
+                name: string;
+              }[];
           };
         };
       };
@@ -329,6 +356,11 @@ export interface paths {
                   createdAt: string;
                   /** Format: date-time */
                   updatedAt: string;
+                }[];
+              tags: {
+                  /** Format: uuid */
+                  id: string;
+                  name: string;
                 }[];
             };
           };
@@ -462,6 +494,110 @@ export interface paths {
       };
     };
   };
+  "/api/admin/tags/": {
+    post: {
+      requestBody: {
+        content: {
+          "application/json": {
+            name: string;
+          };
+        };
+      };
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              /** Format: uuid */
+              id: string;
+              name: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            };
+          };
+        };
+      };
+    };
+  };
+  "/api/admin/tags/{tagId}/": {
+    post: {
+      parameters: {
+        path: {
+          tagId: string;
+        };
+      };
+      requestBody: {
+        content: {
+          "application/json": {
+            name: string;
+          };
+        };
+      };
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              /** Format: uuid */
+              id: string;
+              name: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            };
+          };
+        };
+      };
+    };
+    delete: {
+      parameters: {
+        path: {
+          tagId: string;
+        };
+      };
+      responses: {
+        /** @description Default Response */
+        204: {
+          content: {
+            "application/json": "null" | null;
+          };
+        };
+      };
+    };
+    patch: {
+      parameters: {
+        path: {
+          tagId: string;
+        };
+      };
+      requestBody: {
+        content: {
+          "application/json": {
+            name: string;
+          };
+        };
+      };
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              /** Format: uuid */
+              id: string;
+              name: string;
+              /** Format: date-time */
+              createdAt: string;
+              /** Format: date-time */
+              updatedAt: string;
+            };
+          };
+        };
+      };
+    };
+  };
   "/api/admin/users/": {
     get: {
       parameters: {
@@ -562,6 +698,26 @@ export interface paths {
       };
     };
   };
+  "/api/tags/": {
+    get: {
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+                /** Format: uuid */
+                id: string;
+                name: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+              }[];
+          };
+        };
+      };
+    };
+  };
   "/api/user/auth/register": {
     post: {
       requestBody: {
@@ -634,6 +790,11 @@ export interface paths {
           sortBy?: "title" | "createdAt" | "commentsCount";
           sortDirection?: "asc" | "desc";
           minCommentsCount?: number;
+          tags?: {
+              /** Format: uuid */
+              id?: string;
+              name: string;
+            }[];
         };
       };
       responses: {
@@ -669,6 +830,11 @@ export interface paths {
                   /** Format: date-time */
                   createdAt: string;
                   commentsCount?: number;
+                  tags: {
+                      /** Format: uuid */
+                      id: string;
+                      name: string;
+                    }[];
                 }[];
             };
           };
@@ -681,6 +847,12 @@ export interface paths {
           "application/json": {
             title: string;
             description: string;
+            /** @default [] */
+            tags?: {
+                /** Format: uuid */
+                id?: string;
+                name: string;
+              }[];
           };
         };
       };
@@ -728,6 +900,11 @@ export interface paths {
                   createdAt: string;
                   /** Format: date-time */
                   updatedAt: string;
+                }[];
+              tags: {
+                  /** Format: uuid */
+                  id: string;
+                  name: string;
                 }[];
             };
           };
@@ -787,6 +964,11 @@ export interface paths {
                   /** Format: date-time */
                   updatedAt: string;
                 }[];
+              tags: {
+                  /** Format: uuid */
+                  id: string;
+                  name: string;
+                }[];
             };
           };
         };
@@ -803,6 +985,12 @@ export interface paths {
           "application/json": {
             title?: string;
             description?: string;
+            /** @default [] */
+            tags?: {
+                /** Format: uuid */
+                id?: string;
+                name: string;
+              }[];
           };
         };
       };
@@ -850,6 +1038,11 @@ export interface paths {
                   createdAt: string;
                   /** Format: date-time */
                   updatedAt: string;
+                }[];
+              tags: {
+                  /** Format: uuid */
+                  id: string;
+                  name: string;
                 }[];
             };
           };

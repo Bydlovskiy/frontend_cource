@@ -8,5 +8,6 @@ export const routeNames = {
   login: 'login',
   register: 'register',
   acceptInvite: 'acceptInvite',
-  forgotPassword: 'forgotPassword'
+  forgotPassword: 'forgotPassword',
+  tags: 'tags'
 }

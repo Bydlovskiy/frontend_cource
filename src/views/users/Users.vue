@@ -5,7 +5,7 @@
     <el-input v-model="search" @input="searchPosts" />
 
     <div class="flex gap-2">
-      <el-input v-model="email" type="email" />
+      <el-input v-model="email" type="email" placeholder="Invite@Email.com" />
 
       <el-select v-model="sender">
         <el-option value="sendGrid" label="SendGrid" />

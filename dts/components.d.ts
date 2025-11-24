@@ -21,6 +21,7 @@ declare module 'vue' {
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
+    ElTag: typeof import('element-plus/es')['ElTag']
     Modals: typeof import('./../src/components/Modals.vue')['default']
     PostModal: typeof import('./../src/components/PostModal.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

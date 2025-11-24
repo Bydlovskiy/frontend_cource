@@ -8,6 +8,14 @@
       <el-form-item label="Description" label-position="top" prop="description">
         <el-input v-model="model.description" />
       </el-form-item>
+
+      <el-select
+        v-model="model.tags" multiple
+        :reserve-keyword="false"
+        value-key="id"
+      >
+        <el-option v-for="tag in tags" :key="tag.id" :label="tag.name" :value="tag" />
+      </el-select>
     </el-form>
 
     <el-button @click="handleSave">{{ route.params.id === 'new' ? 'Add Post' : 'Update Post' }}</el-button>
@@ -40,10 +48,13 @@ const authStore = useAuthStore()
 
 const newComment = ref('')
 
+const tags = ref<TTags>([])
+
 const model = ref<TPost | any>({
   title: '',
   description: '',
-  comments: []
+  comments: [],
+  tags: []
 })
 
 async function handleAddComment () {
@@ -89,13 +100,14 @@ async function handleSave () {
     }
 
     const response = await useApiClient.patch(requests[authStore.role],
-      { title: model.value.title, description: model.value.description },
+      { title: model.value.title, description: model.value.description, tags: model.value.tags },
       { dynamicKeys: { postId: route.params.id as string } })
     model.value = { ...model.value, ...response as any }
   }
 }
 
 onMounted(async () => {
+  tags.value = await useApiClient.get('/api/tags/')
   if (route.params.id !== 'new') {
     const requests: Record<TRole, keyof paths> = {
       admin: '/api/admin/post/{postId}/',
