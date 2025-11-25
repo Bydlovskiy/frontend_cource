@@ -326,6 +326,7 @@
     "watchTriggerable": true,
     "watchWithFilter": true,
     "whenever": true,
-    "useAuthStore": true
+    "useAuthStore": true,
+    "ElNotification": true
   }
 }

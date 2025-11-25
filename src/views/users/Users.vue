@@ -44,6 +44,13 @@
           <el-button :disabled="row.status === 'CONFIRMED'" @click="handleResend(row)">Resend</el-button>
         </template>
       </el-table-column>
+
+      <el-table-column>
+        <template #default="{ row }">
+          <el-button type="danger" @click="handleDelete(row.id)">Delete</el-button>
+          <!-- <el-button v-else type="success" @click="handleRestore(row.id)">Restore</el-button> -->
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -75,6 +82,22 @@ async function searchPosts () {
 
   users.value = (res as any).users
 }
+
+async function handleDelete (id: string) {
+  console.log(id)
+  try {
+    await useApiClient.post('/api/admin/users/delete', { id })
+    users.value = users.value.filter((user: any) => user.id !== id)
+    ElNotification.success('User deleted successfully')
+  } catch (e) {
+    console.log(e)
+    ElNotification.error('User deleted failed')
+  }
+}
+
+// async function handleRestore (id: string) {
+//   await useApiClient.post('/api/admin/users/restore', { id })
+// }
 
 async function handleToggle (user: any) {
   if (!user.isEnabled) {

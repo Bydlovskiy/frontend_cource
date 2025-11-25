@@ -23,6 +23,14 @@
     >
       Tags
     </router-link>
+
+    <router-link
+      class="p-2 text-white flex-1"
+      :class="{ 'font-semibold': $route.name === $routeNames.archive }"
+      :to="{ name: $routeNames.archive }"
+    >
+      Archive
+    </router-link>
   </div>
   <router-view class="pt-14" />
 </template>

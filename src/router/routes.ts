@@ -60,6 +60,11 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/tags/Tags.vue')
       },
       {
+        path: '/archive',
+        name: routeNames.archive,
+        component: () => import('@/views/archive/Archive.vue')
+      },
+      {
         path: '/:pathMatch(.*)*',
         redirect: '/posts'
       }

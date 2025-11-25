@@ -113,6 +113,7 @@ export interface paths {
           sortBy?: "title" | "createdAt" | "commentsCount";
           sortDirection?: "asc" | "desc";
           minCommentsCount?: number;
+          "tagIds[]"?: string | string[];
         };
       };
       responses: {
@@ -148,7 +149,7 @@ export interface paths {
                   /** Format: date-time */
                   createdAt: string;
                   commentsCount?: number;
-                  tags: {
+                  tags?: {
                       /** Format: uuid */
                       id: string;
                       name: string;
@@ -219,7 +220,7 @@ export interface paths {
                   /** Format: date-time */
                   updatedAt: string;
                 }[];
-              tags: {
+              tags?: {
                   /** Format: uuid */
                   id: string;
                   name: string;
@@ -282,7 +283,7 @@ export interface paths {
                   /** Format: date-time */
                   updatedAt: string;
                 }[];
-              tags: {
+              tags?: {
                   /** Format: uuid */
                   id: string;
                   name: string;
@@ -357,7 +358,7 @@ export interface paths {
                   /** Format: date-time */
                   updatedAt: string;
                 }[];
-              tags: {
+              tags?: {
                   /** Format: uuid */
                   id: string;
                   name: string;
@@ -615,13 +616,44 @@ export interface paths {
                   email: string;
                   firstName?: string;
                   lastName?: string;
-                  emailVerified?: boolean;
+                  /** Format: uuid */
+                  id?: string;
+                  /** Format: date-time */
+                  deletedAt?: string | null;
                   isEnabled?: boolean;
-                  mfaEnabled?: boolean;
                   /** @enum {string} */
                   status?: "FORCE_CHANGE_PASSWORD" | "CONFIRMED" | "PENDING_CONFIRMATION";
                 })[];
               paginationToken?: string;
+            };
+          };
+        };
+      };
+    };
+  };
+  "/api/admin/users/soft-deleted": {
+    get: {
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              users: ({
+                  /** Format: email */
+                  email: string;
+                  firstName?: string;
+                  lastName?: string;
+                  /** Format: uuid */
+                  id?: string;
+                  /** @enum {string} */
+                  role?: "user" | "admin";
+                  /** Format: date-time */
+                  createdAt?: string;
+                  /** Format: date-time */
+                  updatedAt?: string;
+                  /** Format: date-time */
+                  deletedAt?: string | null;
+                })[];
             };
           };
         };
@@ -658,6 +690,52 @@ export interface paths {
           "application/json": {
             /** Format: email */
             email: string;
+          };
+        };
+      };
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              /** @enum {boolean} */
+              success: true;
+            };
+          };
+        };
+      };
+    };
+  };
+  "/api/admin/users/delete": {
+    post: {
+      requestBody: {
+        content: {
+          "application/json": {
+            /** Format: uuid */
+            id: string;
+          };
+        };
+      };
+      responses: {
+        /** @description Default Response */
+        200: {
+          content: {
+            "application/json": {
+              /** @enum {boolean} */
+              success: true;
+            };
+          };
+        };
+      };
+    };
+  };
+  "/api/admin/users/restore": {
+    post: {
+      requestBody: {
+        content: {
+          "application/json": {
+            /** Format: uuid */
+            id: string;
           };
         };
       };
@@ -790,11 +868,7 @@ export interface paths {
           sortBy?: "title" | "createdAt" | "commentsCount";
           sortDirection?: "asc" | "desc";
           minCommentsCount?: number;
-          tags?: {
-              /** Format: uuid */
-              id?: string;
-              name: string;
-            }[];
+          tagIds?: string[];
         };
       };
       responses: {
@@ -830,7 +904,7 @@ export interface paths {
                   /** Format: date-time */
                   createdAt: string;
                   commentsCount?: number;
-                  tags: {
+                  tags?: {
                       /** Format: uuid */
                       id: string;
                       name: string;
@@ -901,7 +975,7 @@ export interface paths {
                   /** Format: date-time */
                   updatedAt: string;
                 }[];
-              tags: {
+              tags?: {
                   /** Format: uuid */
                   id: string;
                   name: string;
@@ -964,7 +1038,7 @@ export interface paths {
                   /** Format: date-time */
                   updatedAt: string;
                 }[];
-              tags: {
+              tags?: {
                   /** Format: uuid */
                   id: string;
                   name: string;
@@ -1039,7 +1113,7 @@ export interface paths {
                   /** Format: date-time */
                   updatedAt: string;
                 }[];
-              tags: {
+              tags?: {
                   /** Format: uuid */
                   id: string;
                   name: string;
